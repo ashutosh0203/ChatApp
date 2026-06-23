@@ -25,6 +25,7 @@
     "@types/express": "^5.0.6",
     "@types/nodemailer": "^8.0.1",
     "@types/nodemon": "^1.19.6",
-    "concurrently": "^10.0.3"
+    "concurrently": "^10.0.3",
+    "typescript": "^6.0.3"
   }
 }
