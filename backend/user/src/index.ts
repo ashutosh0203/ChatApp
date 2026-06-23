@@ -7,6 +7,8 @@ import { connectRabbitMQ } from "./config/rabbitmq.js";
 
 const app = Express();
 
+app.use(Express.json());
+
 dotenv.config();
 connectDb();
 
