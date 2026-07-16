@@ -2,6 +2,7 @@ import tryCatch from "../config/TryCatch.js";
 import { redisClient } from "../index.js";
 import {User} from "../model/User.js";
 import { generateToken } from "../config/generateToken.js";
+import { AuthenticatedRequest } from "../middleware/isAuth.js";
 
 import { publishToQueue } from "../config/rabbitmq.js";
 
@@ -64,4 +65,39 @@ export const verifyUser= tryCatch(async (req, res) => {
         token,
         user
     })
+});
+
+export const myProfile = tryCatch(async (req: AuthenticatedRequest, res) => {
+    const user= req.user;
+    res.json( user );
+});
+
+export const updateName = tryCatch(async (req: AuthenticatedRequest, res) => {
+    const user = await User.findById(req.user?._id);
+
+    if(!user){
+        res.status(404).json({message: "User not found"});
+        return;
+    }
+
+    user.name = req.body.name || user.name;
+    await user.save();
+
+    const token = generateToken(user);
+    res.json({
+        message: "User name updated successfully.",
+        token,
+        user
+    });
+    
+});
+
+export const getAllUsers = tryCatch(async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+})
+
+export const getUser = tryCatch(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    res.json(user);
 })
