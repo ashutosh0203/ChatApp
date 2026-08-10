@@ -1,29 +1,37 @@
 "use client";
 import React, { useState } from "react";
 import { ArrowRight, Loader2, Mail } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import axios from "axios";
+import { useAppData, user_service } from "@/context/AppContext";
+import Loading from "@/components/Loading";
+import { toast } from "react-hot-toast";
 
 const LoginPage = () => {
     const [email, setEmail] = useState<string>("");
     const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
 
+    const {isAuth, loading: userLoading} = useAppData();
+
     const handleSubmit = async (e: React.FormEvent<HTMLElement>): Promise<void> => { 
         e.preventDefault();
         setLoading(true);
 
         try{
-            const {data} = await axios.post(`http://localhost:5000/api/v1/login`, {email});
+            const {data} = await axios.post(`${user_service}/api/v1/login`, {email});
 
-            alert(data.message)
+            toast.success(data.message);
             router.push(`/verify?email=${email}`)
         }catch(error:any){
-            alert(error.response.data.message || "Something went wrong");
+            toast.error(error.response.data.message || "Something went wrong");
         }finally{
             setLoading(false);
         }
-    }
+    };
+
+    if(userLoading) return <Loading />;
+    if(isAuth) return redirect("/chat");
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center p-4">
       <div className = "max-w-md w-full">
