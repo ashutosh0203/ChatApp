@@ -6,12 +6,13 @@ import userRoutes from './routes/user.js';
 import { connectRabbitMQ } from "./config/rabbitmq.js";
 import cors from "cors";
 
+dotenv.config();
 const app = Express();
 
 app.use(Express.json());
 app.use(cors());
 
-dotenv.config();
+
 connectDb();
 
 connectRabbitMQ();
