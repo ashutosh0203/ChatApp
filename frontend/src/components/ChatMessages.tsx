@@ -51,7 +51,7 @@ const ChatMessages = ({selectedUser, messages, loggedInUser}: ChatMessagesProps)
                                 key={uniqueKey}
                                 >
 
-                                    <div className={`rounded-lg max-w-sm ${
+                                    <div className={`rounded-lg p-3 max-w-sm ${
                                         isSentByMe? "bg-blue-600 text-white":"bg-gray-700 text-white"
                                     }`}>
                                         {

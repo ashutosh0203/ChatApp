@@ -29,7 +29,7 @@ export interface Chat{
 
 export interface Chats{
     _id: string;
-    users: User;
+    user: User;
     chat: Chat;
 }
 
@@ -69,8 +69,8 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
                 },
             });
             setUser(data);
-            setLoading(false);
             setIsAuth(true);
+            setLoading(false);
         }catch(error){
             console.error("Error fetching user:", error);
             setLoading(false);

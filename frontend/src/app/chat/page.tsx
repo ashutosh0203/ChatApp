@@ -10,6 +10,7 @@ import axios from "axios";
 import ChatHeader from "@/components/ChatHeader";
 import ChatMessages from "@/components/ChatMessages";
 import MessageInput from "@/components/MessageInput";
+import { SocketData } from "@/context/SocketContext";
 
 export interface Message {
   _id: string;
@@ -37,6 +38,9 @@ const ChatApp = () => {
     setChats,
   } = useAppData();
 
+  const {onlineUsers} = SocketData();
+  console.log(onlineUsers);
+
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
   const [message, setMessage] = useState("");
   const [siderbarOpen, setSidebarOpen] = useState(false);
@@ -48,7 +52,7 @@ const ChatApp = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !isAuth) {
+    if (!isAuth && !loading) {
       router.push("/login");
     }
   }, [loading, isAuth, router]);
@@ -97,7 +101,7 @@ const ChatApp = () => {
       toast.error("Failef to start chat")
     }
   }
-  const handleMessageeSend = async(e:any, imageFile?:File | null)=>{
+  const handleMessageSend = async(e:any, imageFile?:File | null)=>{
     e.preventDefault()
 
     if(!message.trim() && !imageFile )  return ;
@@ -177,7 +181,7 @@ const ChatApp = () => {
       
       <ChatHeader user={user} setSidebarOpen={setSidebarOpen} isTyping={isTyping}/>
       <ChatMessages selectedUser={selectedUser} messages={messages} loggedInUser={loggedInUser}/>
-      <MessageInput selectedUser={selectedUser} message={message} setMessage={handleTyping} handleMessageSend={handleMessageeSend}/>
+      <MessageInput selectedUser={selectedUser} message={message} setMessage={handleTyping} handleMessageSend={handleMessageSend}/>
     </div>
   </div>;
 };

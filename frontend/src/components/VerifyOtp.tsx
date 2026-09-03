@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronLeft, Loader2, Lock, Mail } from "lucide-react";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import axios from "axios";
-import Cookie from "js-cookie";
+import Cookies from "js-cookie";
 import { useAppData, user_service } from "@/context/AppContext";
 import Loading from "./Loading";
 import { toast } from "react-hot-toast";
@@ -80,7 +80,7 @@ const VerifyOtp = () => {
     try{
       const {data} = await axios.post(`${user_service}/api/v1/verify`, {email, otp: otpString});
       toast.success(data.message);
-      Cookie.set("token", data.token,{
+      Cookies.set("token", data.token,{
         expires: 15,
         secure: false,
         path: "/",

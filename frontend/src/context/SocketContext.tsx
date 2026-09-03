@@ -15,11 +15,11 @@ const SocketContext = createContext<SocketContextType>({
     onlineUsers: [],
 })
 
-interface Providerpops{
+interface ProviderProps{
     children: ReactNode;
 }
 
-export const SocketProvider = ({children}:Providerpops) =>{
+export const SocketProvider = ({children}:ProviderProps) =>{
     const [socket, setSocket] = useState<Socket | null>(null)
     const {user} = useAppData()
     const [onlineUsers, setOnlineUsers] = useState<string[]>([]);

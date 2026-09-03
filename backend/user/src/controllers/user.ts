@@ -1,4 +1,4 @@
-import tryCatch from "../config/TryCatch.js";
+import TryCatch from "../config/TryCatch.js";
 import { redisClient } from "../index.js";
 import {User} from "../model/User.js";
 import { generateToken } from "../config/generateToken.js";
@@ -6,10 +6,10 @@ import { AuthenticatedRequest } from "../middleware/isAuth.js";
 
 import { publishToQueue } from "../config/rabbitmq.js";
 
-export const loginUser = tryCatch(async (req, res) => {
+export const loginUser = TryCatch(async (req, res) => {
     const { email } = req.body;
 
-    const rateLimitKey = `otp:rateLimit:${email}`;
+    const rateLimitKey = `otp:ratelimit:${email}`;
     const rateLimit = await redisClient.get(rateLimitKey);
     if(rateLimit){
         res.status(429).json({message: "Too many requests. Please try again later."});
@@ -32,7 +32,7 @@ export const loginUser = tryCatch(async (req, res) => {
     res.status(200).json({ message: "OTP sent successfully."})
 })
 
-export const verifyUser= tryCatch(async (req, res) => {
+export const verifyUser= TryCatch(async (req, res) => {
     // console.log("verifyUser called with body:", req.body);
     const { email, otp:enteredOtp } = req.body;
 
@@ -67,12 +67,12 @@ export const verifyUser= tryCatch(async (req, res) => {
     })
 });
 
-export const myProfile = tryCatch(async (req: AuthenticatedRequest, res) => {
+export const myProfile = TryCatch(async (req: AuthenticatedRequest, res) => {
     const user= req.user;
     res.json( user );
 });
 
-export const updateName = tryCatch(async (req: AuthenticatedRequest, res) => {
+export const updateName = TryCatch(async (req: AuthenticatedRequest, res) => {
     const user = await User.findById(req.user?._id);
 
     if(!user){
@@ -86,18 +86,18 @@ export const updateName = tryCatch(async (req: AuthenticatedRequest, res) => {
     const token = generateToken(user);
     res.json({
         message: "User name updated successfully.",
+        user,
         token,
-        user
     });
     
 });
 
-export const getAllUsers = tryCatch(async (req, res) => {
+export const getAllUsers = TryCatch(async (req: AuthenticatedRequest, res) => {
     const users = await User.find();
     res.json(users);
 })
 
-export const getUser = tryCatch(async (req, res) => {
+export const getAUser = TryCatch(async (req, res) => {
     const user = await User.findById(req.params.id);
     res.json(user);
 })
