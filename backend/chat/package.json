@@ -22,7 +22,8 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.7.4",
     "multer": "^2.2.0",
-    "multer-storage-cloudinary": "^4.0.0"
+    "multer-storage-cloudinary": "^4.0.0",
+    "socket.io": "^4.8.3"
   },
   "devDependencies": {
     "@types/axios": "^0.9.36",
@@ -32,6 +33,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.2.0",
     "@types/node": "^26.1.1",
+    "@types/socket.io": "^3.0.1",
     "concurrently": "^10.0.3",
     "nodemon": "^3.1.14",
     "typescript": "^7.0.2"

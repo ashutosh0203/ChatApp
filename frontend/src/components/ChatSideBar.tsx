@@ -14,9 +14,10 @@ interface ChatSideBarProps {
     selectedUser: string | null;
     setSelectedUser: (userId: string | null) => void;
     handleLogout: () => void;
+    createChat:(user:User) => void;
 }
 
-const ChatSideBar = ({siderbarOpen, setSidebarOpen, setShowAllUser,showAllUser, users, loggedInUser, chats, selectedUser,setSelectedUser, handleLogout}:ChatSideBarProps) => {
+const ChatSideBar = ({siderbarOpen, setSidebarOpen, setShowAllUser,showAllUser, users, loggedInUser, chats, selectedUser,setSelectedUser, handleLogout, createChat,}:ChatSideBarProps) => {
   const [searchQuery, setSearchQuery] = useState("");
     return (
     <aside className={`fixed z-20 sm:static top-0 left-0 h-screen w-80 bg-gray-900 border-r border-gray-700 transform ${
@@ -75,7 +76,9 @@ const ChatSideBar = ({siderbarOpen, setSidebarOpen, setShowAllUser,showAllUser, 
                             {
                                 users?.filter((u)=> u._id !== loggedInUser?._id && u.name.toLowerCase().includes(searchQuery.toLowerCase()))
                                 .map((u)=>(
-                                    <button key={u._id} className="w-full text-left p-4 rounded-lg border border-gray-700 hover:border-gray-600 hover:bg-gray-800 transition-colors" >
+                                    <button key={u._id} className="w-full text-left p-4 rounded-lg border border-gray-700 hover:border-gray-600 hover:bg-gray-800 transition-colors" 
+                                    onClick={()=> createChat(u)}
+                                    >
                                         <div className="flex items-center gap-3">
                                             <div className="relative">
                                                 <UserCircle className="w-6 h-6 text-gray-300" />
@@ -117,9 +120,10 @@ const ChatSideBar = ({siderbarOpen, setSidebarOpen, setShowAllUser,showAllUser, 
                                             <div className="flex items-center gap-3">
                                                 <div className="relative">
                                                     <div className="w-12 h-1/2 rounded-full bg-gray-700 flex items-center justify-center">
-                                                        <UserCircle className="w-7 h-7 text-gray-300" />
+                                                        <UserCircle className="w-6 h-6 text-gray-300" />
                                                         {/* online userwork */}
                                                     </div>
+                                                    
                                                     
                                                 </div>
                                                 <div className='flex-1 min-w-0'>
